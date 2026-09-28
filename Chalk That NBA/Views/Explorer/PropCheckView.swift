@@ -103,7 +103,5 @@ struct PropCheckView: View {
     }
 
     /// A line the way JS prints a number: 25.5, 26 (not 26.0).
-    static func lineText(_ v: Double) -> String {
-        v == v.rounded() ? String(Int(v)) : String(v)
-    }
+    static func lineText(_ v: Double) -> String { Format.jsNumber(v) }
 }

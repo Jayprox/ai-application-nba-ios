@@ -14,7 +14,9 @@ enum AppRoute: Hashable {
     /// `season` / `seasonType` open the explorer on those filters (the
     /// web's `/players/:id?season=…&type=…` links from a team roster).
     case player(id: String, season: String? = nil, seasonType: String? = nil)
-    case team(id: Int)
+    /// `season` / `seasonType` open the explorer there (standings and
+    /// bracket links, like the web's `/teams/:id?season=…&type=…`).
+    case team(id: Int, season: String? = nil, seasonType: String? = nil)
 }
 
 extension View {
@@ -25,8 +27,8 @@ extension View {
                 BoxScoreView(gameId: id)
             case .player(let id, let season, let seasonType):
                 PlayerDetailView(playerId: id, season: season, seasonType: seasonType)
-            case .team(let id):
-                TeamDetailView(teamId: id)
+            case .team(let id, let season, let seasonType):
+                TeamDetailView(teamId: id, season: season, seasonType: seasonType)
             }
         }
     }

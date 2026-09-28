@@ -232,6 +232,18 @@ enum Format {
         }
     }
 
+    /// A number the way JS prints it: 25.5, 26 (not 26.0), 4.5.
+    static func jsNumber(_ v: Double) -> String {
+        v == v.rounded() && abs(v) < 1e15 ? String(Int(v)) : String(v)
+    }
+
+    /// Standings win %: `pct.toFixed(3).replace(/^0/, '')` -> ".683", "1.000"; "—" when missing.
+    static func winPct(_ v: Double?) -> String {
+        guard let v else { return "—" }
+        let s = String(format: "%.3f", v)
+        return s.hasPrefix("0") ? String(s.dropFirst()) : s
+    }
+
     /// `toLocaleString()` for whole numbers: 5,280.
     static func thousands(_ n: Int) -> String {
         let formatter = NumberFormatter()

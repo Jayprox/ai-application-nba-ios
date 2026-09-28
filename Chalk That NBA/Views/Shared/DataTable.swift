@@ -28,6 +28,16 @@ struct DataTable: View {
         let cells: [String]
         var route: AppRoute?
         var spoken: String
+        /// Muted text before the pinned text (a rank: "1  Celtics").
+        var prefix: String?
+        /// Accent text after it (a clinch mark: "Celtics x").
+        var suffix: String?
+        /// Whole row muted (below the play-in line).
+        var muted = false
+        /// Faint band (play-in seeds).
+        var shaded = false
+        /// Heavy rule under the row (a playoff / play-in cut line).
+        var heavyBottom = false
     }
 
     let pinnedTitle: String
@@ -61,7 +71,8 @@ struct DataTable: View {
                 .overlay(alignment: .bottom) { heavyRule }
             ForEach(rows) { row in
                 pinnedCell(row, bold: false)
-                    .overlay(alignment: .bottom) { rule }
+                    .background(row.shaded ? Color.rule.opacity(0.4) : Color.clear)
+                    .overlay(alignment: .bottom) { row.heavyBottom ? AnyView(heavyRule) : AnyView(rule) }
             }
             if let footer {
                 pinnedCell(footer, bold: true)
@@ -72,20 +83,38 @@ struct DataTable: View {
 
     @ViewBuilder
     private func pinnedCell(_ row: Row, bold: Bool) -> some View {
-        let text = Text(row.pinned)
-            .font(.brandBody(.subheadline, weight: bold ? .semibold : .regular))
-            .monospacedDigit()
-            .lineLimit(1)
-            .padding(.horizontal, 12)
-            .frame(maxWidth: .infinity, minHeight: rowHeight, maxHeight: rowHeight, alignment: .leading)
+        let color: Color = row.route != nil ? .link : (row.muted ? .muted : .ink)
+        let text = HStack(spacing: 6) {
+            if let prefix = row.prefix {
+                Text(prefix)
+                    .foregroundStyle(Color.muted)
+                    .frame(minWidth: 18, alignment: .leading)
+            }
+            Text(row.pinned)
+                .fontWeight(bold ? .semibold : (row.prefix != nil ? .medium : .regular))
+                .foregroundStyle(color)
+                .lineLimit(1)
+            if let suffix = row.suffix {
+                Text(suffix)
+                    .font(.brandBody(.caption, weight: .semibold))
+                    .foregroundStyle(Color.accent)
+            }
+        }
+        .font(.brandBody(.subheadline))
+        .monospacedDigit()
+        .padding(.horizontal, 12)
+        .frame(maxWidth: .infinity, minHeight: rowHeight, maxHeight: rowHeight, alignment: .leading)
         if let route = row.route {
             NavigationLink(value: route) {
-                text.foregroundStyle(Color.link).contentShape(Rectangle())
+                text.contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
             .accessibilityLabel(row.spoken)
+            .accessibilityAddTraits(.isButton)
         } else {
-            text.foregroundStyle(Color.ink)
+            text
+                .accessibilityElement(children: .ignore)
                 .accessibilityLabel(row.spoken)
         }
     }
@@ -104,7 +133,8 @@ struct DataTable: View {
 
             ForEach(rows) { row in
                 cells(row, bold: false)
-                    .overlay(alignment: .bottom) { rule }
+                    .background(row.shaded ? Color.rule.opacity(0.4) : Color.clear)
+                    .overlay(alignment: .bottom) { row.heavyBottom ? AnyView(heavyRule) : AnyView(rule) }
             }
             if let footer {
                 cells(footer, bold: true)
@@ -119,7 +149,7 @@ struct DataTable: View {
                 Text(index < row.cells.count ? row.cells[index] : "")
                     .font(column.muted ? .brandBody(.footnote) : .brandBody(.subheadline, weight: bold || column.bold ? .semibold : .regular))
                     .monospacedDigit()
-                    .foregroundStyle(column.muted ? Color.muted : Color.ink)
+                    .foregroundStyle(column.muted || row.muted ? Color.muted : Color.ink)
                     .lineLimit(1)
                     .frame(width: column.width * unit, alignment: column.leading ? .leading : .trailing)
                     .padding(.horizontal, 6)

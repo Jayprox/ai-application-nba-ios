@@ -52,6 +52,10 @@ enum Endpoints {
     static func player(_ id: String) -> String { "/players/\(id)" }
     static func playerProps(_ id: String) -> String { "/players/\(id)/props" }
 
+    // MARK: - League (api.md §5)
+    static func standings(season: String) -> String { "/standings?season=\(season)" }
+    static func bracket(season: String) -> String { "/bracket?season=\(season)" }
+
     // MARK: - Rankings (api.md §6)
     static func matchups(season: String, seasonType: String) -> String {
         "/rankings/matchups?season=\(season)&season_type=\(seasonType)"

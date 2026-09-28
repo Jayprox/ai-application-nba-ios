@@ -110,7 +110,7 @@ signs the app out cleanly.
   Test: sign in, force an expired token, confirm exactly one refresh.
 - [x] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
 - [x] **3. Players search → Player detail** with the full stat explorer.
-- [ ] **4. Teams → Team detail** (explorer in team mode, defense by position).
+- [x] **4. Teams → Team detail** (explorer in team mode, defense by position).
 - [ ] **5. Leaders, Standings** (table + bracket).
 - [ ] **6. Rankings, Props board, Prop check, Guide.**
 - [ ] **7. Ask.**
@@ -203,3 +203,21 @@ Same filters on web and iOS, numbers must match exactly:
   season and type via `AppRoute.player(id:season:seasonType:)`).
   Explorer gained `startSeason` / `startType` and `onFiltersChange`.
   Tests: `TeamTests`.
+- **2026-09-28** — Step 4 pushed by JD.
+- **2026-09-28** — Step 5 written (Leaders, Standings + bracket), waiting
+  on JD's build: Leaders tab (7 stat tabs incl. Usage as "28.3%", season
+  menu, Regular / Playoffs / All, top 25, rows open the player on that
+  season and type, "Who qualifies" card from meta.qualifier with "so far"
+  for the current season and the 15+ min rule on usage, usage note);
+  Standings under League (season menu, Standings | Playoffs tabs; table
+  per conference in rank order with clinch marks, playoff / play-in cut
+  lines and shading from meta.format, legend, every meta.notes line;
+  bracket: Finals, then West / East stacked Play-In → First round (1v8,
+  4v5, 3v6, 2v7) → semis → conf finals, series scores from
+  higher_wins / lower_wins, in-progress series outlined, team links
+  open the playoffs / play-in filters). `AppRoute.team` now takes a
+  season and type. `DataTable` rows gained prefix / suffix / muted /
+  shaded / cut line. `Array.stableSorted` keeps JS's stable sort order.
+  Tests: `LeagueTests` (bracket order ported from Standings.test.js).
+  Note: Leaders shows the qualifier and usage notes through the card
+  and footnote, as the web does, rather than repeating meta.notes.

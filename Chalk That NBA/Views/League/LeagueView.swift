@@ -14,7 +14,7 @@ struct LeagueView: View {
     var body: some View {
         List {
             Section {
-                row("Standings", icon: "list.number") { ComingSoonView(title: "Standings", step: "step 5") }
+                row("Standings", icon: "list.number") { StandingsView() }
                 row("Teams", icon: "person.3") { TeamsView() }
                 row("Rankings", icon: "chart.line.uptrend.xyaxis") { ComingSoonView(title: "Rankings", step: "step 6") }
             }
