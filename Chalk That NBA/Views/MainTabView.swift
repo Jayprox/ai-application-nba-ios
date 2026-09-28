@@ -8,14 +8,14 @@
 //  depend on it. Each tab owns its NavigationStack (the NFL pattern), so
 //  a push in one tab doesn't affect another.
 //
-//  Step 1: every screen is a placeholder that names its build step.
+//  Screens not built yet are placeholders that name their build step.
 //
 import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
         TabView {
-            tab { ComingSoonView(title: "Scores", step: "step 2") }
+            tab { ScoreboardView() }
                 .tabItem { Label("Scores", systemImage: "sportscourt") }
 
             tab { ComingSoonView(title: "Players", step: "step 3") }
@@ -37,6 +37,7 @@ struct MainTabView: View {
     private func tab<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
         NavigationStack {
             content()
+                .appDestinations()
                 .brandNavigationBar()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

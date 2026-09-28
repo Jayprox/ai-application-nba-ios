@@ -71,7 +71,7 @@ signs the app out cleanly.
     reused) signs out — also what the web does.
   - Oswald is bundled (NFL never bundled its fonts). Body text uses the
     system font (kickoff §5 allows Inter or system).
-- [ ] **Proposed in step 1 (JD to confirm)**
+- [x] **Added in step 1 (JD didn't object; pushed 2026-09-28)**
   - iPhone only (`TARGETED_DEVICE_FAMILY = 1`); kickoff §7.8 targets iPhone
     SE through Pro Max. NFL is iPhone + iPad.
   - A unit-test target, "Chalk That NBATests" (NFL has none), for the auth
@@ -105,7 +105,7 @@ signs the app out cleanly.
 
 ## Phase 5 — Build Order (ios-kickoff.md §7)
 
-- [ ] **1. Skeleton + auth** — Xcode project, `Color+Brand`, fonts,
+- [x] **1. Skeleton + auth** — Xcode project, `Color+Brand`, fonts,
   `APIClient`, Keychain + single-flight refresh, Login, 5-tab shell.
   Test: sign in, force an expired token, confirm exactly one refresh.
 - [ ] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
@@ -150,3 +150,19 @@ Same filters on web and iOS, numbers must match exactly:
   on reuse and on still-401-after-refresh, session kept on offline/429,
   no resurrection after sign-out mid-refresh, and the login messages.
   Oswald .ttf files still to be added by JD.
+- **2026-09-28** — Step 1 pushed by JD. Oswald .ttf files still not in
+  `Resources/Fonts` (display text falls back to the system font).
+- **2026-09-28** — Step 2 written (Scoreboard → Box score), waiting on JD's
+  build: `Format` (port of lib/format.js: calendar dates in a fixed UTC
+  calendar, tip-off in the viewer's timezone, JS-exact `toFixed(1)` /
+  `Math.round`, checked against Node over 60,000 values), game + box-score
+  models, `States` (Loading / Error / Empty cards with the web's wording),
+  `FlowLayout`, `AppRoute` (one push enum for every tab),
+  `ScoreboardView` + `GameCardView` (date arrows skip empty days, date
+  picker, designed empty day with prev/next links, stale-date guard),
+  `BoxScoreView` + `BoxScoreTable` (header, split tags, per-team tables
+  with a pinned player column, starters, DNP reasons, totals, VoiceOver
+  reads each row as one line). Live games re-fetch every ~60 s on both
+  screens (the web doesn't poll; kickoff §3 allows it). Tests added:
+  `FormatTests`, `DecodingTests`. The test host now shows a blank screen
+  under XCTest so no real screen fires requests during tests.

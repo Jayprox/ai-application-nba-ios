@@ -25,4 +25,8 @@ enum Endpoints {
     static let refresh = "/refresh"
     static let logout  = "/logout"
     static let health  = "/health"
+
+    // MARK: - Games (api.md §4)
+    static func games(date: String) -> String { "/games?date=\(date)" }
+    static func game(_ id: String) -> String { "/games/\(id)" }
 }

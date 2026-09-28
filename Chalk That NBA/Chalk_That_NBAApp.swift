@@ -14,7 +14,11 @@ struct Chalk_That_NBAApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if auth.isAuthenticated {
+                if Self.isRunningUnitTests {
+                    // Unit tests use this app as their host. Show nothing, so
+                    // no screen makes real requests while tests stub the network.
+                    Color.paper
+                } else if auth.isAuthenticated {
                     MainTabView()
                 } else {
                     LoginView()
@@ -25,4 +29,6 @@ struct Chalk_That_NBAApp: App {
             .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         }
     }
+
+    private static let isRunningUnitTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 }
