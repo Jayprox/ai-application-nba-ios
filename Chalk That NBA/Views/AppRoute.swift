@@ -6,12 +6,13 @@
 //  ResearchRoute pattern). Each tab's NavigationStack registers
 //  `.appDestinations()`, so a box score can be opened from Scores, a game
 //  log, or anywhere else, and lands on that tab's own stack.
-//  Step 3+ adds player and team cases.
+//  Step 4 adds team.
 //
 import SwiftUI
 
 enum AppRoute: Hashable {
     case game(id: String)
+    case player(id: String)
 }
 
 extension View {
@@ -20,6 +21,8 @@ extension View {
             switch route {
             case .game(let id):
                 BoxScoreView(gameId: id)
+            case .player(let id):
+                PlayerDetailView(playerId: id)
             }
         }
     }

@@ -18,7 +18,7 @@ struct MainTabView: View {
             tab { ScoreboardView() }
                 .tabItem { Label("Scores", systemImage: "sportscourt") }
 
-            tab { ComingSoonView(title: "Players", step: "step 3") }
+            tab { PlayersView() }
                 .tabItem { Label("Players", systemImage: "person.2") }
 
             tab { ComingSoonView(title: "Leaders", step: "step 5") }

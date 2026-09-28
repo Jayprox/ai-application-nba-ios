@@ -29,4 +29,25 @@ enum Endpoints {
     // MARK: - Games (api.md §4)
     static func games(date: String) -> String { "/games?date=\(date)" }
     static func game(_ id: String) -> String { "/games/\(id)" }
+
+    // MARK: - Browse (api.md §4)
+    static let teams = "/teams"
+    static let seasons = "/seasons"
+
+    /// GET /players?q=&team=&active= ("active" defaults to true on the server;
+    /// it's always sent so the request says what it means).
+    static func players(q: String, teamId: Int?, active: Bool) -> String {
+        var components = URLComponents()
+        var items: [URLQueryItem] = []
+        if !q.isEmpty { items.append(URLQueryItem(name: "q", value: q)) }
+        if let teamId { items.append(URLQueryItem(name: "team", value: String(teamId))) }
+        items.append(URLQueryItem(name: "active", value: active ? "true" : "false"))
+        components.queryItems = items
+        return "/players?" + (components.percentEncodedQuery ?? "")
+    }
+    static func player(_ id: String) -> String { "/players/\(id)" }
+    static func playerProps(_ id: String) -> String { "/players/\(id)/props" }
+
+    // MARK: - Stats engine (api.md §3)
+    static let query = "/query"
 }

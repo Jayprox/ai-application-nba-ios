@@ -108,7 +108,7 @@ signs the app out cleanly.
 - [x] **1. Skeleton + auth** — Xcode project, `Color+Brand`, fonts,
   `APIClient`, Keychain + single-flight refresh, Login, 5-tab shell.
   Test: sign in, force an expired token, confirm exactly one refresh.
-- [ ] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
+- [x] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
 - [ ] **3. Players search → Player detail** with the full stat explorer.
 - [ ] **4. Teams → Team detail** (explorer in team mode, defense by position).
 - [ ] **5. Leaders, Standings** (table + bracket).
@@ -166,3 +166,27 @@ Same filters on web and iOS, numbers must match exactly:
   screens (the web doesn't poll; kickoff §3 allows it). Tests added:
   `FormatTests`, `DecodingTests`. The test host now shows a blank screen
   under XCTest so no real screen fires requests during tests.
+- **2026-09-28** — Step 2 pushed by JD.
+- **2026-09-28** — Step 3 written (Players → Player detail + stat explorer),
+  waiting on JD's build: models for /teams, /players, /players/:id,
+  /players/:id/props and POST /query (StatQuery with a custom encoder:
+  only set splits are sent, rest "3+" as a string, team ids as numbers;
+  QueryResponse generic over data: Averages / CareerData / [GameLogRow]);
+  `ExplorerFilters` (port of buildQuery); Players tab (debounced search,
+  team menu, Active only, truncation + retired-hidden lines); Player
+  detail (bio line, injury badge hidden while null, no-seasons empty
+  state, waits for props so the first query carries tonight's lines);
+  StatExplorerView (season menu, type pills, scope tabs, collapsible
+  splits with "Rest measured by", result header + record, every
+  meta.notes line, NoGames with the web's four messages and one-tap
+  fixes, Prop check, tiles with "est." in caution color, career table
+  newest first + Career row, game log with box-score links, Pts line
+  and tags, freshness footer); shared `Pills`, `UnderlineTabs`,
+  `DataTable` (pinned first column). Stale guard: a result shows only
+  while it matches the current controls. Tests: `ExplorerTests` ports
+  StatExplorer.test.js, NoGames.test.jsx and PropCheck.test.jsx, plus
+  query/player decoding.
+- **Open for step 4:** the web's team tiles and team career table show
+  "Net rtg (est.)" as off_rtg − def_rtg computed in the browser. That is
+  a client-side derived number (ground rule 2) even though the web does
+  it. Decide with JD before building team detail.
