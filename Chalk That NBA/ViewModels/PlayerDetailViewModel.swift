@@ -14,14 +14,18 @@ import Combine
 @MainActor
 final class PlayerDetailViewModel: ObservableObject {
     let playerId: String
+    let startSeason: String?
+    let startType: String?
     @Published private(set) var player: PlayerDetail?
     @Published private(set) var props: PlayerProps?
     @Published private(set) var propsSettled = false
     @Published private(set) var isLoading = false
     @Published private(set) var error: Error?
 
-    init(playerId: String) {
+    init(playerId: String, season: String? = nil, seasonType: String? = nil) {
         self.playerId = playerId
+        self.startSeason = season
+        self.startType = seasonType
     }
 
     func load() async {

@@ -45,8 +45,17 @@ enum Endpoints {
         components.queryItems = items
         return "/players?" + (components.percentEncodedQuery ?? "")
     }
+    static func team(_ id: Int) -> String { "/teams/\(id)" }
+    static func teamPlayers(_ id: Int, season: String, seasonType: String) -> String {
+        "/teams/\(id)/players?season=\(season)&season_type=\(seasonType)"
+    }
     static func player(_ id: String) -> String { "/players/\(id)" }
     static func playerProps(_ id: String) -> String { "/players/\(id)/props" }
+
+    // MARK: - Rankings (api.md §6)
+    static func matchups(season: String, seasonType: String) -> String {
+        "/rankings/matchups?season=\(season)&season_type=\(seasonType)"
+    }
 
     // MARK: - Stats engine (api.md §3)
     static let query = "/query"

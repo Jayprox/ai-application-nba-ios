@@ -2,13 +2,16 @@
 //  StatTiles.swift
 //  Chalk That NBA
 //
-//  Averages as tiles (the web's `Tiles`), player version:
-//    Points, Rebounds, Assists, 3PM, FG%, Steals, Blocks, Turnovers,
-//    Minutes, +/-
-//    Efficiency & usage: TS%, eFG%, FT rate, Pts/36, Reb/36, Ast/36,
-//    Usage (est.)
+//  Averages as tiles (the web's `Tiles`).
+//  Player: Points, Rebounds, Assists, 3PM, FG%, Steals, Blocks, Turnovers,
+//    Minutes, +/-; Efficiency & usage: TS%, eFG%, FT rate, Pts/36,
+//    Reb/36, Ast/36, Usage (est.)
+//  Team: Points, Opp points, Rebounds, Assists, 3PM, FG%, 3P%, Steals,
+//    Blocks, Turnovers; Efficiency: Off rtg (est.), Def rtg (est.),
+//    Net rtg (est.), TS%, eFG%
 //  Values are the API's, formatted (Format); each tile's hint is the
-//  web's tooltip text. The team version arrives with team detail (step 4).
+//  web's tooltip text. Net rtg is the one derived number (see
+//  Format.netRating).
 //
 import SwiftUI
 
@@ -19,13 +22,36 @@ struct StatTiles: View {
     private typealias Tile = (label: String, value: String, hint: String?)
 
     private var main: [Tile] {
+        entity == .team ? teamMain : playerMain
+    }
+
+    private var efficiency: [Tile] {
+        entity == .team ? teamEfficiency : playerEfficiency
+    }
+
+    private var teamMain: [Tile] {
+        [("Points", Format.avg(d.pts), nil), ("Opp points", Format.avg(d.oppPts), nil), ("Rebounds", Format.avg(d.reb), nil),
+         ("Assists", Format.avg(d.ast), nil), ("3PM", Format.avg(d.fg3m), nil), ("FG%", Format.pct(d.fgPct), nil),
+         ("3P%", Format.pct(d.fg3Pct), nil), ("Steals", Format.avg(d.stl), nil), ("Blocks", Format.avg(d.blk), nil),
+         ("Turnovers", Format.avg(d.tov), nil)]
+    }
+
+    private var teamEfficiency: [Tile] {
+        [("Off rtg (est.)", Format.avg(d.offRtg), "Points per 100 possessions (possessions estimated from the box score)"),
+         ("Def rtg (est.)", Format.avg(d.defRtg), "Opponent points per 100 possessions (estimated)"),
+         ("Net rtg (est.)", Format.netRating(off: d.offRtg, def: d.defRtg), "Off rtg minus def rtg"),
+         ("TS%", Format.pct(d.tsPct), "True shooting"),
+         ("eFG%", Format.pct(d.efgPct), "Effective FG%")]
+    }
+
+    private var playerMain: [Tile] {
         [("Points", Format.avg(d.pts), nil), ("Rebounds", Format.avg(d.reb), nil), ("Assists", Format.avg(d.ast), nil),
          ("3PM", Format.avg(d.fg3m), nil), ("FG%", Format.pct(d.fgPct), nil), ("Steals", Format.avg(d.stl), nil),
          ("Blocks", Format.avg(d.blk), nil), ("Turnovers", Format.avg(d.tov), nil), ("Minutes", Format.avg(d.minutes), nil),
          ("+/-", Format.signedAvg(d.plusMinus), nil)]
     }
 
-    private var efficiency: [Tile] {
+    private var playerEfficiency: [Tile] {
         [("TS%", Format.pct(d.tsPct), "True shooting: points per shot, counting 3s and free throws"),
          ("eFG%", Format.pct(d.efgPct), "Effective FG%: a 3 counts 1.5 makes"),
          ("FT rate", Format.pct(d.ftRate), "Free-throw attempts per field-goal attempt"),
@@ -44,7 +70,7 @@ struct StatTiles: View {
                 ForEach(main, id: \.label) { tile($0) }
             }
             VStack(alignment: .leading, spacing: 8) {
-                SectionLabel(text: "Efficiency & usage")
+                SectionLabel(text: entity == .team ? "Efficiency" : "Efficiency & usage")
                 LazyVGrid(columns: grid, spacing: 10) {
                     ForEach(efficiency, id: \.label) { tile($0) }
                 }

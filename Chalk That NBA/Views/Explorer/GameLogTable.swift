@@ -2,8 +2,9 @@
 //  GameLogTable.swift
 //  Chalk That NBA
 //
-//  The game log, newest first (the web's `GameLog`, player version):
-//  Date | Opp Result Min Pts Reb Ast 3PM FG +/- "Pts line" Tags. Tapping
+//  The game log, newest first (the web's `GameLog`).
+//  Team: Date | Opp, Result ("W 110-102"), Tags (team schedule).
+//  Player: Date | Opp Result Min Pts Reb Ast 3PM FG +/- "Pts line" Tags. Tapping
 //  the date opens the box score. "Pts line" is the DraftKings points line
 //  with its result (O / U / P), blank when no line was pulled. Tags use
 //  his own rest when "Rest measured by" is his games.
@@ -54,7 +55,29 @@ struct GameLogTable: View {
         .init(title: "Tags", width: 300, leading: true, muted: true)
     ]
 
+    private let teamColumns: [DataTable.Column] = [
+        .init(title: "Opp", width: 64, leading: true), .init(title: "Result", width: 84, leading: true, bold: true),
+        .init(title: "Tags", width: 300, leading: true, muted: true)
+    ]
+
     var body: some View {
+        if entity == .team { teamBody } else { playerBody }
+    }
+
+    private var teamBody: some View {
+        let tableRows = rows.map { r -> DataTable.Row in
+            let result = "\(r.won == true ? "W" : "L") \(r.pts.map(String.init) ?? "")-\(r.oppPts.map(String.init) ?? "")"
+            let tags = GameLogText.tags(r, restBy: "team")
+            return DataTable.Row(
+                id: r.gameId, pinned: Format.tinyDate(r.date),
+                cells: [GameLogText.opponent(r), result, tags],
+                route: .game(id: r.gameId),
+                spoken: [Format.shortDate(r.date), GameLogText.opponent(r), result, tags].filter { !$0.isEmpty }.joined(separator: ", "))
+        }
+        return DataTable(pinnedTitle: "Date", pinnedWidth: 76, columns: teamColumns, rows: tableRows)
+    }
+
+    private var playerBody: some View {
         let tableRows = rows.map { r in
             DataTable.Row(
                 id: r.gameId,
@@ -66,7 +89,7 @@ struct GameLogTable: View {
                 route: .game(id: r.gameId),
                 spoken: spoken(r))
         }
-        DataTable(pinnedTitle: "Date", pinnedWidth: 76, columns: columns, rows: tableRows)
+        return DataTable(pinnedTitle: "Date", pinnedWidth: 76, columns: columns, rows: tableRows)
     }
 
     private func spoken(_ r: GameLogRow) -> String {

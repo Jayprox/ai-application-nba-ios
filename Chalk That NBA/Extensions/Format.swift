@@ -219,6 +219,37 @@ enum Format {
         return (v > 0 ? "+" : "") + toFixed1(v)
     }
 
+    /// `ordinal` (lib/rankings.js): 1st, 2nd, 3rd, 11th, 22nd.
+    static func ordinal(_ n: Int?) -> String {
+        guard let n else { return "" }
+        let v = n % 100
+        if (11...13).contains(v) { return "\(n)th" }
+        switch n % 10 {
+        case 1: return "\(n)st"
+        case 2: return "\(n)nd"
+        case 3: return "\(n)rd"
+        default: return "\(n)th"
+        }
+    }
+
+    /// `toLocaleString()` for whole numbers: 5,280.
+    static func thousands(_ n: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.locale = usLocale
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: n)) ?? String(n)
+    }
+
+    /// Team "Net rtg (est.)": off_rtg − def_rtg, signed, 1 decimal.
+    /// THE ONE DERIVED NUMBER IN THE APP, on purpose: the web computes it
+    /// the same way in the browser (StatExplorer.jsx Tiles / Career), and
+    /// JD chose web parity over a backend change (2026-09-28). Same double
+    /// subtraction as JS, same toFixed(1), so it matches the web exactly.
+    static func netRating(off: Double?, def: Double?) -> String {
+        guard let off, let def else { return "—" }
+        return signedAvg(off - def)
+    }
+
     // MARK: - JS-compatible rounding
 
     /// JavaScript's `Math.round`: nearest integer, halves go up (toward +∞).

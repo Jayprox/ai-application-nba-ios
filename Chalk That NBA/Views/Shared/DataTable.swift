@@ -84,7 +84,6 @@ struct DataTable: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(row.spoken)
-            .accessibilityHint("Opens the box score")
         } else {
             text.foregroundStyle(Color.ink)
                 .accessibilityLabel(row.spoken)

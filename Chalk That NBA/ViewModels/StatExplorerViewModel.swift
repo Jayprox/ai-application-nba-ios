@@ -39,8 +39,11 @@ final class StatExplorerViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var error: Error?
 
+    /// `startSeason` / `startType` open on those filters when valid (a
+    /// roster link); otherwise the newest season, regular season.
     init(entity: QueryEntity, id: String, name: String, seasons: [String],
-         seasonTypes: [String: [String]], lines: [String: Double]?) {
+         seasonTypes: [String: [String]], lines: [String: Double]?,
+         startSeason: String? = nil, startType: String? = nil) {
         self.entity = entity
         self.id = id
         self.name = name
@@ -48,7 +51,10 @@ final class StatExplorerViewModel: ObservableObject {
         self.seasonTypes = seasonTypes
         self.lines = lines
         var filters = ExplorerFilters()
-        filters.season = seasons.first
+        filters.season = startSeason.flatMap { seasons.contains($0) ? $0 : nil } ?? seasons.first
+        if let startType, ExplorerFilters.seasonTypes.contains(where: { $0.value == startType }) {
+            filters.seasonType = startType
+        }
         self.filters = filters
     }
 

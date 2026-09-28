@@ -15,7 +15,7 @@ struct LeagueView: View {
         List {
             Section {
                 row("Standings", icon: "list.number") { ComingSoonView(title: "Standings", step: "step 5") }
-                row("Teams", icon: "person.3") { ComingSoonView(title: "Teams", step: "step 4") }
+                row("Teams", icon: "person.3") { TeamsView() }
                 row("Rankings", icon: "chart.line.uptrend.xyaxis") { ComingSoonView(title: "Rankings", step: "step 6") }
             }
             .listRowBackground(Color.card)

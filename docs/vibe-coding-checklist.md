@@ -109,7 +109,7 @@ signs the app out cleanly.
   `APIClient`, Keychain + single-flight refresh, Login, 5-tab shell.
   Test: sign in, force an expired token, confirm exactly one refresh.
 - [x] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
-- [ ] **3. Players search → Player detail** with the full stat explorer.
+- [x] **3. Players search → Player detail** with the full stat explorer.
 - [ ] **4. Teams → Team detail** (explorer in team mode, defense by position).
 - [ ] **5. Leaders, Standings** (table + bracket).
 - [ ] **6. Rankings, Props board, Prop check, Guide.**
@@ -186,7 +186,20 @@ Same filters on web and iOS, numbers must match exactly:
   while it matches the current controls. Tests: `ExplorerTests` ports
   StatExplorer.test.js, NoGames.test.jsx and PropCheck.test.jsx, plus
   query/player decoding.
-- **Open for step 4:** the web's team tiles and team career table show
-  "Net rtg (est.)" as off_rtg − def_rtg computed in the browser. That is
-  a client-side derived number (ground rule 2) even though the web does
-  it. Decide with JD before building team detail.
+- **2026-09-28** — Step 3 pushed by JD.
+- **Decision (JD, 2026-09-28): team "Net rtg (est.)" = off_rtg − def_rtg
+  on the device, as the web does (option A: web parity, no backend
+  change).** It's the one derived number in the app, isolated in
+  `Format.netRating` and documented there; checked against Node's
+  output over 50,000 pairs.
+- **2026-09-28** — Step 4 written (Teams → Team detail), waiting on JD's
+  build: Teams list (conference → division, Altitude arena tag and
+  footnote); Team detail (header with altitude/elevation, explorer in team
+  mode with team tiles / team career "All seasons" / team game log
+  "W 118-110"; default season = /seasons latest_with_games); Defense by
+  position (follows the explorer's season, regular or playoffs; one card
+  per position with allowed, rank, vs league avg and strong/weak); the
+  season roster (follows season + type; names open the player on that
+  season and type via `AppRoute.player(id:season:seasonType:)`).
+  Explorer gained `startSeason` / `startType` and `onFiltersChange`.
+  Tests: `TeamTests`.

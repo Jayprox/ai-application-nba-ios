@@ -19,16 +19,23 @@ import SwiftUI
 struct StatExplorerView: View {
     @StateObject private var vm: StatExplorerViewModel
     private let props: PlayerProps?
+    private let onFiltersChange: ((ExplorerFilters) -> Void)?
     @State private var showSplits = false
 
+    /// - Parameter onFiltersChange: team detail follows the explorer's
+    ///   season and type with its roster and defense sections, like the web.
     init(entity: QueryEntity, id: String, name: String, seasons: [String],
-         seasonTypes: [String: [String]], props: PlayerProps? = nil) {
+         seasonTypes: [String: [String]], props: PlayerProps? = nil,
+         startSeason: String? = nil, startType: String? = nil,
+         onFiltersChange: ((ExplorerFilters) -> Void)? = nil) {
         let lines = props?.upcoming.map { upcoming in
             Dictionary(upcoming.lines.map { ($0.market, $0.line) }, uniquingKeysWith: { first, _ in first })
         }
         _vm = StateObject(wrappedValue: StatExplorerViewModel(
-            entity: entity, id: id, name: name, seasons: seasons, seasonTypes: seasonTypes, lines: lines))
+            entity: entity, id: id, name: name, seasons: seasons, seasonTypes: seasonTypes, lines: lines,
+            startSeason: startSeason, startType: startType))
         self.props = props
+        self.onFiltersChange = onFiltersChange
     }
 
     var body: some View {
@@ -39,6 +46,8 @@ struct StatExplorerView: View {
             result
         }
         .task(id: vm.currentQuery) { await vm.load() }
+        .onAppear { onFiltersChange?(vm.filters) }
+        .onChange(of: vm.filters) { onFiltersChange?($0) }
     }
 
     // MARK: - Season + type
