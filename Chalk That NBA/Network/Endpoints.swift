@@ -72,6 +72,9 @@ enum Endpoints {
         "/props?market=\(market)" + (date.map { "&date=\($0)" } ?? "")
     }
 
+    // MARK: - Ask (api.md §9)
+    static let ask = "/ask"
+
     // MARK: - Stats engine (api.md §3)
     static let query = "/query"
 }

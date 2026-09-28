@@ -11,7 +11,11 @@
 import SwiftUI
 
 struct LeadersView: View {
-    @StateObject private var vm = LeadersViewModel()
+    @StateObject private var vm: LeadersViewModel
+
+    init(season: String? = nil, seasonType: String? = nil, stat: String? = nil) {
+        _vm = StateObject(wrappedValue: LeadersViewModel(season: season, seasonType: seasonType, stat: stat))
+    }
 
     var body: some View {
         ScrollView {

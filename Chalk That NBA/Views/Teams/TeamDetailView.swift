@@ -16,8 +16,8 @@ import SwiftUI
 struct TeamDetailView: View {
     @StateObject private var vm: TeamDetailViewModel
 
-    init(teamId: Int, season: String? = nil, seasonType: String? = nil) {
-        _vm = StateObject(wrappedValue: TeamDetailViewModel(teamId: teamId, season: season, seasonType: seasonType))
+    init(teamId: Int, season: String? = nil, seasonType: String? = nil, filters: ExplorerFilters? = nil) {
+        _vm = StateObject(wrappedValue: TeamDetailViewModel(teamId: teamId, season: season, seasonType: seasonType, filters: filters))
     }
 
     var body: some View {
@@ -29,7 +29,7 @@ struct TeamDetailView: View {
                         StatExplorerView(
                             entity: .team, id: String(team.id), name: "the \(team.fullName)",
                             seasons: vm.seasons, seasonTypes: team.seasonTypes,
-                            startSeason: vm.startSeason ?? latest, startType: vm.startType
+                            startSeason: vm.startSeason ?? latest, startType: vm.startType, startFilters: vm.startFilters
                         ) { filters in
                             vm.season = filters.season
                             vm.seasonType = filters.seasonType

@@ -41,9 +41,7 @@ struct MainTabView: View {
                 .brandNavigationBar()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink {
-                            ComingSoonView(title: "Ask", step: "step 7")
-                        } label: {
+                        NavigationLink(value: AppRoute.ask) {
                             Image(systemName: "text.magnifyingglass")
                         }
                         .accessibilityLabel("Ask")

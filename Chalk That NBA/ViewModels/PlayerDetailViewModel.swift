@@ -16,16 +16,18 @@ final class PlayerDetailViewModel: ObservableObject {
     let playerId: String
     let startSeason: String?
     let startType: String?
+    let startFilters: ExplorerFilters?
     @Published private(set) var player: PlayerDetail?
     @Published private(set) var props: PlayerProps?
     @Published private(set) var propsSettled = false
     @Published private(set) var isLoading = false
     @Published private(set) var error: Error?
 
-    init(playerId: String, season: String? = nil, seasonType: String? = nil) {
+    init(playerId: String, season: String? = nil, seasonType: String? = nil, filters: ExplorerFilters? = nil) {
         self.playerId = playerId
         self.startSeason = season
         self.startType = seasonType
+        self.startFilters = filters
     }
 
     func load() async {

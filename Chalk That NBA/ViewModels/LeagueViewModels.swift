@@ -34,6 +34,12 @@ final class LeadersViewModel: ObservableObject {
     @Published private(set) var seasons: [String] = []
     @Published private(set) var currentSeason: String?
     @Published var key: Key?
+
+    private let start: (season: String?, seasonType: String?, stat: String?)
+
+    init(season: String? = nil, seasonType: String? = nil, stat: String? = nil) {
+        start = (season, seasonType, stat)
+    }
     @Published private(set) var rows: [LeaderRow] = []
     @Published private(set) var meta: QueryMeta?
     @Published private(set) var loadedKey: Key?
@@ -49,7 +55,10 @@ final class LeadersViewModel: ObservableObject {
             seasons = result.seasons
             currentSeason = result.meta?.currentSeason
             if key == nil, let latest = result.meta?.latestWithGames ?? result.seasons.first {
-                key = Key(season: latest)
+                var k = Key(season: start.season.flatMap { result.seasons.contains($0) ? $0 : nil } ?? latest)
+                if let t = start.seasonType, Self.types.contains(where: { $0.value == t }) { k.seasonType = t }
+                if let s = start.stat, Self.stats.contains(where: { $0.value == s }) { k.stat = s }
+                key = k
             }
         } catch {
             if !Task.isCancelled { self.error = error }
@@ -86,6 +95,14 @@ final class StandingsViewModel: ObservableObject {
     @Published private(set) var seasons: [String] = []
     @Published var key: Key?
 
+    private let startSeason: String?
+    private let startBracket: Bool
+
+    init(season: String? = nil, bracket: Bool = false) {
+        startSeason = season
+        startBracket = bracket
+    }
+
     @Published private(set) var standings: StandingsData?
     @Published private(set) var standingsMeta: StandingsMeta?
     @Published private(set) var series: [Series] = []
@@ -101,7 +118,8 @@ final class StandingsViewModel: ObservableObject {
             let result = try await SeasonsLoader.load()
             seasons = result.seasons
             if key == nil, let latest = result.meta?.latestWithGames ?? result.seasons.first {
-                key = Key(season: latest)
+                key = Key(season: startSeason.flatMap { result.seasons.contains($0) ? $0 : nil } ?? latest,
+                          view: startBracket ? .bracket : .table)
             }
         } catch {
             if !Task.isCancelled { self.error = error }

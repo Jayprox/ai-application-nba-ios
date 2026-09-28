@@ -91,6 +91,22 @@ struct ExplorerFilters: Hashable {
         return scope == "career" ? type : "\(season ?? "") \(type)"
     }
 
+    /// The web's URL state (`?season=&type=&scope=&restby=&venue=&b2b=&rest=&tv=&alt=`)
+    /// -> filters, keeping only values the explorer offers, as StatExplorer.jsx
+    /// does. Used for Ask's "Open the full view" (and universal links in 1.1).
+    static func fromWebQuery(_ q: [String: String]) -> ExplorerFilters {
+        var f = ExplorerFilters()
+        f.season = q["season"]
+        if let t = q["type"], seasonTypes.contains(where: { $0.value == t }) { f.seasonType = t }
+        if let s = q["scope"], scopes.contains(where: { $0.value == s }) { f.scope = s }
+        f.restBy = q["restby"] == "team" ? "team" : "player"
+        for split in Split.allCases {
+            let key = split.rawValue
+            if let v = q[key], v != "all", split.options.contains(where: { $0.value == v }) { f[split] = v }
+        }
+        return f
+    }
+
     /// Port of buildQuery(entity, id, p, lines): the POST /query body.
     func query(entity: QueryEntity, id: String, lines: [String: Double]? = nil) -> StatQuery {
         let byPlayer = entity == .player && restBy != "team"

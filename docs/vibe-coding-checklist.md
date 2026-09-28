@@ -112,7 +112,7 @@ signs the app out cleanly.
 - [x] **3. Players search → Player detail** with the full stat explorer.
 - [x] **4. Teams → Team detail** (explorer in team mode, defense by position).
 - [x] **5. Leaders, Standings** (table + bracket).
-- [ ] **6. Rankings, Props board, Prop check, Guide.**
+- [x] **6. Rankings, Props board, Prop check, Guide.**
 - [ ] **7. Ask.**
 - [ ] **8. Empty-state pass, accessibility (Dynamic Type, VoiceOver),
   SE → Pro Max layouts, App Store assets.**
@@ -242,3 +242,19 @@ Same filters on web and iOS, numbers must match exactly:
   (z["ts_pct"] -> "tsPct"), so lookups go through `Format.decodedKey`.
   Tests: `PropsAndRankingsTests` (ports props.test.js and
   rankings.test.js, plus payloads and the guide's structure).
+- **2026-09-28** — Step 6 pushed by JD.
+- **2026-09-28** — Step 7 written (Ask), waiting on JD's build: AskView
+  from the magnifier on every tab (eyebrow "Plain English · verified
+  numbers", search box capped at 300 chars, the web's six examples);
+  answer = sentence + clarify buttons + removable chips + a view per
+  view.type (stats tiles / game log, leaders, player and team rankings,
+  matchups, props tiles, standings, game, series; unsupported shows the
+  examples) + the web's footer + "Open the full view →". The plan is
+  read with a plain decoder (`JSONValue`) and re-sent unchanged, so
+  snake_case keys (`season_type`, `rest_by`) and chip keys stay intact;
+  `APIClient.requestData` gives Ask the raw body through the same
+  auth/refresh flow. `WebLink` maps the answer's web path to the native
+  screen with its URL state (player/team explorer filters, leaders,
+  rankings, standings/bracket, games, props); Leaders, Rankings,
+  Standings, Player and Team detail accept those start values. This is
+  most of the 1.1 universal-links mapping already. Tests: `AskTests`.

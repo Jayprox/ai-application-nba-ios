@@ -30,6 +30,14 @@ final class RankingsViewModel: ObservableObject {
 
     @Published private(set) var seasons: [String] = []
     @Published var key: Key?
+
+    private let start: (view: String?, season: String?, position: String?, sort: String?, scope: String?)
+
+    init(view: String? = nil, season: String? = nil, position: String? = nil, sort: String? = nil, scope: String? = nil) {
+        start = (view, season, position, sort, scope)
+        if view == "teams", let sort, Self.teamSorts.contains(where: { $0.value == sort }) { teamSort = sort }
+        if view == "matchups", let sort, Self.matchupStats.contains(where: { $0.value == sort }) { matchupSort = sort }
+    }
     @Published var teamSort = "net_rtg"
     @Published var matchupSort = "pts"
 
@@ -50,7 +58,11 @@ final class RankingsViewModel: ObservableObject {
             let result = try await SeasonsLoader.load()
             seasons = result.seasons
             if key == nil, let latest = result.meta?.latestWithGames ?? result.seasons.first {
-                key = Key(season: latest)
+                var k = Key(season: start.season.flatMap { result.seasons.contains($0) ? $0 : nil } ?? latest)
+                if let v = start.view, Self.views.contains(where: { $0.value == v }) { k.view = v }
+                if let p = start.position, Self.positions.contains(where: { $0.value == p }) { k.position = p }
+                if let s = start.scope, Self.scopes.contains(where: { $0.value == s }) { k.scope = s }
+                key = k
             }
         } catch {
             if !Task.isCancelled { self.error = error }

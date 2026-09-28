@@ -48,6 +48,7 @@ final class TeamDetailViewModel: ObservableObject {
     let teamId: Int
     let startSeason: String?
     let startType: String?
+    let startFilters: ExplorerFilters?
     @Published private(set) var team: TeamDetail?
     @Published private(set) var seasons: [String] = []
     @Published private(set) var latestSeason: String?
@@ -58,10 +59,11 @@ final class TeamDetailViewModel: ObservableObject {
     @Published var season: String?
     @Published var seasonType = "regular"
 
-    init(teamId: Int, season: String? = nil, seasonType: String? = nil) {
+    init(teamId: Int, season: String? = nil, seasonType: String? = nil, filters: ExplorerFilters? = nil) {
         self.teamId = teamId
         self.startSeason = season
         self.startType = seasonType
+        self.startFilters = filters
     }
 
     func load() async {

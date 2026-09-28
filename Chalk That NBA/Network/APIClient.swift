@@ -101,11 +101,30 @@ final class APIClient {
         bodyData: Data? = nil,
         authenticated: Bool = true
     ) async throws -> T {
+        let data = try await requestData(path: path, method: method, bodyData: bodyData, authenticated: authenticated)
+        do {
+            return try JSONDecoder.chalkThatNBA.decode(T.self, from: data)
+        } catch {
+            #if DEBUG
+            print("[APIClient] decode failed for \(T.self): \(String(describing: error))")
+            #endif
+            throw APIError.decodingError(error)
+        }
+    }
+
+    /// The same auth / refresh / retry flow, returning the raw 2xx body.
+    /// POST /ask uses it to read `plan` without the snake-case conversion.
+    func requestData(
+        path: String,
+        method: String = "GET",
+        bodyData: Data? = nil,
+        authenticated: Bool = true
+    ) async throws -> Data {
         let sentToken = authenticated ? KeychainManager.accessToken : nil
         let (data, http) = try await send(path: path, method: method, body: bodyData, token: sentToken)
 
         guard http.statusCode == 401, authenticated else {
-            return try decodeOrThrow(data, http)
+            return try successData(data, http)
         }
 
         // Expired or invalid access token: one refresh (shared with any
@@ -123,7 +142,7 @@ final class APIClient {
             endSession()
             throw APIError.unauthorized
         }
-        return try decodeOrThrow(retryData, retryHTTP)
+        return try successData(retryData, retryHTTP)
     }
 
     // MARK: - Convenience wrappers
@@ -176,16 +195,9 @@ final class APIClient {
         return .server(status: http.statusCode, message: body?.error, retryAfterSeconds: body?.retryAfterSeconds ?? headerRetry)
     }
 
-    private func decodeOrThrow<T: Decodable>(_ data: Data, _ http: HTTPURLResponse) throws -> T {
+    private func successData(_ data: Data, _ http: HTTPURLResponse) throws -> Data {
         guard (200...299).contains(http.statusCode) else { throw Self.serverError(data, http) }
-        do {
-            return try JSONDecoder.chalkThatNBA.decode(T.self, from: data)
-        } catch {
-            #if DEBUG
-            print("[APIClient] decode failed for \(T.self): \(String(describing: error))")
-            #endif
-            throw APIError.decodingError(error)
-        }
+        return data
     }
 
     private func endSession() {

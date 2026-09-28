@@ -26,14 +26,14 @@ struct StatExplorerView: View {
     ///   season and type with its roster and defense sections, like the web.
     init(entity: QueryEntity, id: String, name: String, seasons: [String],
          seasonTypes: [String: [String]], props: PlayerProps? = nil,
-         startSeason: String? = nil, startType: String? = nil,
+         startSeason: String? = nil, startType: String? = nil, startFilters: ExplorerFilters? = nil,
          onFiltersChange: ((ExplorerFilters) -> Void)? = nil) {
         let lines = props?.upcoming.map { upcoming in
             Dictionary(upcoming.lines.map { ($0.market, $0.line) }, uniquingKeysWith: { first, _ in first })
         }
         _vm = StateObject(wrappedValue: StatExplorerViewModel(
             entity: entity, id: id, name: name, seasons: seasons, seasonTypes: seasonTypes, lines: lines,
-            startSeason: startSeason, startType: startType))
+            startSeason: startSeason, startType: startType, startFilters: startFilters))
         self.props = props
         self.onFiltersChange = onFiltersChange
     }

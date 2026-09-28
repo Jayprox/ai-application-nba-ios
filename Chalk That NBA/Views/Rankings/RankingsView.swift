@@ -15,7 +15,11 @@
 import SwiftUI
 
 struct RankingsView: View {
-    @StateObject private var vm = RankingsViewModel()
+    @StateObject private var vm: RankingsViewModel
+
+    init(view: String? = nil, season: String? = nil, position: String? = nil, sort: String? = nil, scope: String? = nil) {
+        _vm = StateObject(wrappedValue: RankingsViewModel(view: view, season: season, position: position, sort: sort, scope: scope))
+    }
 
     var body: some View {
         ScrollView {

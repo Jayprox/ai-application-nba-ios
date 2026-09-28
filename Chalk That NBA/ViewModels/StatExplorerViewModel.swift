@@ -43,15 +43,17 @@ final class StatExplorerViewModel: ObservableObject {
     /// roster link); otherwise the newest season, regular season.
     init(entity: QueryEntity, id: String, name: String, seasons: [String],
          seasonTypes: [String: [String]], lines: [String: Double]?,
-         startSeason: String? = nil, startType: String? = nil) {
+         startSeason: String? = nil, startType: String? = nil, startFilters: ExplorerFilters? = nil) {
         self.entity = entity
         self.id = id
         self.name = name
         self.seasons = seasons
         self.seasonTypes = seasonTypes
         self.lines = lines
-        var filters = ExplorerFilters()
-        filters.season = startSeason.flatMap { seasons.contains($0) ? $0 : nil } ?? seasons.first
+        var filters = startFilters ?? ExplorerFilters()
+        let wanted = startFilters?.season ?? startSeason
+        filters.season = wanted.flatMap { seasons.contains($0) ? $0 : nil } ?? startSeason.flatMap { seasons.contains($0) ? $0 : nil } ?? seasons.first
+        if entity == .team { filters.restBy = "player" }
         if let startType, ExplorerFilters.seasonTypes.contains(where: { $0.value == startType }) {
             filters.seasonType = startType
         }

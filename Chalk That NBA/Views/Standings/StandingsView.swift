@@ -13,7 +13,11 @@
 import SwiftUI
 
 struct StandingsView: View {
-    @StateObject private var vm = StandingsViewModel()
+    @StateObject private var vm: StandingsViewModel
+
+    init(season: String? = nil, bracket: Bool = false) {
+        _vm = StateObject(wrappedValue: StandingsViewModel(season: season, bracket: bracket))
+    }
 
     static let clinchText = [
         "z": "best record in the league", "w": "clinched the West", "e": "clinched the East", "y": "clinched division",

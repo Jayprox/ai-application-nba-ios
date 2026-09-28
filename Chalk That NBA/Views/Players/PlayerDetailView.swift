@@ -12,8 +12,8 @@ import SwiftUI
 struct PlayerDetailView: View {
     @StateObject private var vm: PlayerDetailViewModel
 
-    init(playerId: String, season: String? = nil, seasonType: String? = nil) {
-        _vm = StateObject(wrappedValue: PlayerDetailViewModel(playerId: playerId, season: season, seasonType: seasonType))
+    init(playerId: String, season: String? = nil, seasonType: String? = nil, filters: ExplorerFilters? = nil) {
+        _vm = StateObject(wrappedValue: PlayerDetailViewModel(playerId: playerId, season: season, seasonType: seasonType, filters: filters))
     }
 
     var body: some View {
@@ -28,7 +28,7 @@ struct PlayerDetailView: View {
                             entity: .player, id: player.id, name: player.fullName,
                             seasons: player.seasons, seasonTypes: player.seasonTypes,
                             props: vm.props,
-                            startSeason: vm.startSeason, startType: vm.startType
+                            startSeason: vm.startSeason, startType: vm.startType, startFilters: vm.startFilters
                         )
                     } else {
                         LoadingCard(label: "Crunching…")
