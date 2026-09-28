@@ -111,7 +111,7 @@ signs the app out cleanly.
 - [x] **2. Scoreboard → Box score** (models, calendar dates, live refresh).
 - [x] **3. Players search → Player detail** with the full stat explorer.
 - [x] **4. Teams → Team detail** (explorer in team mode, defense by position).
-- [ ] **5. Leaders, Standings** (table + bracket).
+- [x] **5. Leaders, Standings** (table + bracket).
 - [ ] **6. Rankings, Props board, Prop check, Guide.**
 - [ ] **7. Ask.**
 - [ ] **8. Empty-state pass, accessibility (Dynamic Type, VoiceOver),
@@ -221,3 +221,24 @@ Same filters on web and iOS, numbers must match exactly:
   Tests: `LeagueTests` (bracket order ported from Standings.test.js).
   Note: Leaders shows the qualifier and usage notes through the card
   and footnote, as the web does, rather than repeating meta.notes.
+- **2026-09-28** — Step 5 pushed by JD.
+- **2026-09-28** — Step 6 written (Rankings, Props board, Guide; Prop
+  check shipped in step 3), waiting on JD's build:
+  Rankings under League (Players / Teams / Matchups; season, Regular /
+  Playoffs, Season / Last 10, position; players table with score, GP and
+  each stat with its z-score underneath; teams with W-L, Off / Def / Net /
+  Pace and each rank underneath, "Rank by" re-sorts; matchups by position
+  with allowed + rank · vs league avg, strong / weak, League avg row;
+  every meta.notes line). Props tab (date arrows between dates with
+  lines, date picker, 12 market tabs, game filter, 4 sorts ported from
+  lib/props.js sortRows; one card per player like the web's phone
+  layout: line, prices, movement from open, matchup note with weak /
+  strong D, Last 10, Season or Last szn, Avg, Result or Opening /
+  Closing; the web's three no-lines messages; notes). Guide under
+  League (all 12 sections of Guide.jsx, same wording except three phone
+  edits listed in GuideContent.swift; jump links). `DataTable` rows
+  gained a second line (`subcells`) and a muted `detail`.
+  Gotcha handled: the decoder camelCases dictionary keys too
+  (z["ts_pct"] -> "tsPct"), so lookups go through `Format.decodedKey`.
+  Tests: `PropsAndRankingsTests` (ports props.test.js and
+  rankings.test.js, plus payloads and the guide's structure).

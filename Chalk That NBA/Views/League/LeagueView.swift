@@ -16,12 +16,12 @@ struct LeagueView: View {
             Section {
                 row("Standings", icon: "list.number") { StandingsView() }
                 row("Teams", icon: "person.3") { TeamsView() }
-                row("Rankings", icon: "chart.line.uptrend.xyaxis") { ComingSoonView(title: "Rankings", step: "step 6") }
+                row("Rankings", icon: "chart.line.uptrend.xyaxis") { RankingsView() }
             }
             .listRowBackground(Color.card)
 
             Section {
-                row("Guide", icon: "questionmark.circle") { ComingSoonView(title: "Guide", step: "step 6") }
+                row("Guide", icon: "questionmark.circle") { GuideView() }
             }
             .listRowBackground(Color.card)
 

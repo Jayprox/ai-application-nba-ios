@@ -262,6 +262,16 @@ enum Format {
         return signedAvg(off - def)
     }
 
+    /// A dictionary key as it reads AFTER decoding. JSONDecoder's
+    /// convertFromSnakeCase also rewrites dictionary keys, so the API's
+    /// `z["ts_pct"]` / `ranks["off_rtg"]` arrive as "tsPct" / "offRtg".
+    /// Look those up with `Format.decodedKey("ts_pct")`.
+    static func decodedKey(_ snake: String) -> String {
+        let parts = snake.split(separator: "_", omittingEmptySubsequences: false)
+        guard parts.count > 1 else { return snake }
+        return String(parts[0]) + parts.dropFirst().map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined()
+    }
+
     // MARK: - JS-compatible rounding
 
     /// JavaScript's `Math.round`: nearest integer, halves go up (toward +∞).

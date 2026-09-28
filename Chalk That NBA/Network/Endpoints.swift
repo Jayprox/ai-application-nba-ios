@@ -57,8 +57,19 @@ enum Endpoints {
     static func bracket(season: String) -> String { "/bracket?season=\(season)" }
 
     // MARK: - Rankings (api.md §6)
-    static func matchups(season: String, seasonType: String) -> String {
-        "/rankings/matchups?season=\(season)&season_type=\(seasonType)"
+    static func matchups(season: String, seasonType: String, scope: String = "season") -> String {
+        "/rankings/matchups?season=\(season)&season_type=\(seasonType)&scope=\(scope)"
+    }
+    static func playerRankings(season: String, seasonType: String, scope: String, position: String) -> String {
+        "/rankings/players?season=\(season)&season_type=\(seasonType)&scope=\(scope)&position=\(position)"
+    }
+    static func teamRankings(season: String, seasonType: String, scope: String) -> String {
+        "/rankings/teams?season=\(season)&season_type=\(seasonType)&scope=\(scope)"
+    }
+
+    // MARK: - Props (api.md §7)
+    static func props(date: String?, market: String) -> String {
+        "/props?market=\(market)" + (date.map { "&date=\($0)" } ?? "")
     }
 
     // MARK: - Stats engine (api.md §3)

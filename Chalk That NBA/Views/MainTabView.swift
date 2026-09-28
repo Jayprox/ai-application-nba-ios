@@ -24,7 +24,7 @@ struct MainTabView: View {
             tab { LeadersView() }
                 .tabItem { Label("Leaders", systemImage: "list.number") }
 
-            tab { ComingSoonView(title: "Props", step: "step 6") }
+            tab { PropsBoardView() }
                 .tabItem { Label("Props", systemImage: "chart.bar.xaxis") }
 
             tab { LeagueView() }

@@ -38,6 +38,10 @@ struct DataTable: View {
         var shaded = false
         /// Heavy rule under the row (a playoff / play-in cut line).
         var heavyBottom = false
+        /// A small muted second line under each cell (a rank, a z-score).
+        var subcells: [String]?
+        /// Muted text after the pinned text (a team: "Nikola Jokić DEN").
+        var detail: String?
     }
 
     let pinnedTitle: String
@@ -46,7 +50,12 @@ struct DataTable: View {
     let rows: [Row]
     var footer: Row?
 
-    @ScaledMetric(relativeTo: .subheadline) private var rowHeight: CGFloat = 36
+    @ScaledMetric(relativeTo: .subheadline) private var baseRowHeight: CGFloat = 36
+
+    /// Rows grow to fit a second line when any row has one.
+    private var rowHeight: CGFloat {
+        rows.contains { $0.subcells != nil } || footer?.subcells != nil ? baseRowHeight * 1.45 : baseRowHeight
+    }
     @ScaledMetric(relativeTo: .subheadline) private var unit: CGFloat = 1
 
     var body: some View {
@@ -94,6 +103,11 @@ struct DataTable: View {
                 .fontWeight(bold ? .semibold : (row.prefix != nil ? .medium : .regular))
                 .foregroundStyle(color)
                 .lineLimit(1)
+            if let detail = row.detail {
+                Text(detail)
+                    .font(.brandBody(.caption))
+                    .foregroundStyle(Color.muted)
+            }
             if let suffix = row.suffix {
                 Text(suffix)
                     .font(.brandBody(.caption, weight: .semibold))
@@ -146,13 +160,20 @@ struct DataTable: View {
     private func cells(_ row: Row, bold: Bool) -> some View {
         HStack(spacing: 0) {
             ForEach(Array(columns.enumerated()), id: \.offset) { index, column in
-                Text(index < row.cells.count ? row.cells[index] : "")
-                    .font(column.muted ? .brandBody(.footnote) : .brandBody(.subheadline, weight: bold || column.bold ? .semibold : .regular))
-                    .monospacedDigit()
-                    .foregroundStyle(column.muted || row.muted ? Color.muted : Color.ink)
-                    .lineLimit(1)
-                    .frame(width: column.width * unit, alignment: column.leading ? .leading : .trailing)
-                    .padding(.horizontal, 6)
+                VStack(alignment: column.leading ? .leading : .trailing, spacing: 1) {
+                    Text(index < row.cells.count ? row.cells[index] : "")
+                        .font(column.muted ? .brandBody(.footnote) : .brandBody(.subheadline, weight: bold || column.bold ? .semibold : .regular))
+                        .foregroundStyle(column.muted || row.muted ? Color.muted : Color.ink)
+                    if let sub = row.subcells, index < sub.count, !sub[index].isEmpty {
+                        Text(sub[index])
+                            .font(.brandBody(.caption2))
+                            .foregroundStyle(Color.muted)
+                    }
+                }
+                .monospacedDigit()
+                .lineLimit(1)
+                .frame(width: column.width * unit, alignment: column.leading ? .leading : .trailing)
+                .padding(.horizontal, 6)
             }
         }
         .padding(.trailing, 6)
