@@ -59,13 +59,13 @@ Accounts are by invitation; there is no public sign-up.
 Chalk That Hardwood is an independent app and is not affiliated with, endorsed by, or sponsored by the NBA or any team.
 ```
 
-**Support URL:** host `docs/support.html` (**JD**; see hosting note below)
+**Support URL:** https://jayprox.github.io/chalkthat-privacy/hardwood-support.html
 **Marketing URL:** leave blank (optional)
-**Privacy Policy URL:** host `docs/privacy-policy.html` (**JD**)
+**Privacy Policy URL:** https://jayprox.github.io/chalkthat-privacy/hardwood.html
 
-Hosting: the simplest option is to copy both files into the web app's
-`frontend/public/` so they're served at `/support.html` and
-`/privacy-policy.html` on the web service. GitHub Pages works too.
+Hosting: both pages live in the `chalkthat-privacy` repo (GitHub Pages),
+alongside the NFL pages. `docs/support.html` and `docs/privacy-policy.html`
+here are the source drafts; edit the hosted copies when the policy changes.
 
 ## Age rating (questionnaire)
 
