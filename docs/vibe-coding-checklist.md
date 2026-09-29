@@ -113,7 +113,7 @@ signs the app out cleanly.
 - [x] **4. Teams → Team detail** (explorer in team mode, defense by position).
 - [x] **5. Leaders, Standings** (table + bracket).
 - [x] **6. Rankings, Props board, Prop check, Guide.**
-- [ ] **7. Ask.**
+- [x] **7. Ask.**
 - [ ] **8. Empty-state pass, accessibility (Dynamic Type, VoiceOver),
   SE → Pro Max layouts, App Store assets.**
 
@@ -258,3 +258,20 @@ Same filters on web and iOS, numbers must match exactly:
   rankings, standings/bracket, games, props); Leaders, Rankings,
   Standings, Player and Team detail accept those start values. This is
   most of the 1.1 universal-links mapping already. Tests: `AskTests`.
+- **2026-09-28** — Step 7 pushed by JD.
+- **2026-09-28** — Step 8 started. Empty-state audit against §1.5: every
+  case already has a designed message (scoreboard empty day, preseason
+  context, rookie/no seasons, retired, zero-game split, type not reached,
+  Cup before 2023-24, no prop lines, standings/bracket/rankings empties,
+  box score without teams). Added: dark launch screen (LaunchBackground,
+  no white flash), `ITSAppUsesNonExemptEncryption = NO`,
+  `docs/privacy-policy.html` (adds the Ask → Anthropic disclosure),
+  `docs/app-store.md` (listing, age rating and privacy-label drafts,
+  review notes, screenshot plan), `docs/parity-test-plan.md` (§8 as
+  runnable cases + empty states + accessibility/layout checks).
+  Waiting on JD: app icon pick.
+- **2026-09-28** — Oswald Medium / SemiBold / Bold added to
+  `Resources/Fonts` with `OFL.txt` (SIL Open Font License; static TTFs
+  from the @expo-google-fonts/oswald npm package, PostScript names
+  checked: Oswald-Medium, Oswald-SemiBold, Oswald-Bold). Five icon
+  concepts in `docs/icon-concepts/` (drawn by `gen.py`); JD to pick.
