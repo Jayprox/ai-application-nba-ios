@@ -67,10 +67,12 @@ extension Notification.Name {
 
 extension JSONDecoder {
     /// The API is snake_case (`sample_size`, `tipoff_utc`); Swift models are
-    /// camelCase. Heads-up: this strategy also rewrites the keys of
-    /// `[String: T]` dictionaries that contain underscores. Today's
-    /// dictionary keys (seasons, markets like `fg3m`, conferences) have
-    /// none, but decode any future underscored dictionary key by hand.
+    /// camelCase. Two things this strategy does that are easy to get wrong
+    /// (both caught by the unit tests):
+    /// - Keys inside `[String: T]` dictionaries are NOT converted:
+    ///   `z["ts_pct"]`, `ranks["off_rtg"]` keep the API's spelling.
+    /// - Components after the first are `.capitalized`, which treats a digit
+    ///   as a word break: `player_b2b_night` -> `playerB2BNight`.
     static let chalkThatNBA: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase

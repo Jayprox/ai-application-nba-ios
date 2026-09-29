@@ -45,7 +45,7 @@ struct LeagueView: View {
         .scrollContentBackground(.hidden)
         .background(Color.paper)
         .navigationTitle("League")
-        .confirmationDialog("Sign out of Chalk That NBA?", isPresented: $confirmingSignOut, titleVisibility: .visible) {
+        .confirmationDialog("Sign out of Chalk That Hardwood?", isPresented: $confirmingSignOut, titleVisibility: .visible) {
             Button("Sign out", role: .destructive) {
                 Task { await auth.logout() }
             }

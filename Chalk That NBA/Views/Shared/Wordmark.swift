@@ -2,7 +2,10 @@
 //  Wordmark.swift
 //  Chalk That NBA
 //
-//  "CHALK THAT NBA" with NBA in `faint`, as in the web header and Login.
+//  "CHALK THAT HARDWOOD" with HARDWOOD in `faint`. The public name is
+//  Chalk That Hardwood (2026-09-29): Apple rejects "NBA" in an app's name
+//  or branding under Guideline 4.1(a), as it did "NFL" for the sister app
+//  (now Chalk That Gridiron). Factual mentions (NBA.com, NBA Finals) stay.
 //
 import SwiftUI
 
@@ -10,10 +13,12 @@ struct Wordmark: View {
     var size: CGFloat = 22
 
     var body: some View {
-        (Text("CHALK THAT ").foregroundColor(.ink) + Text("NBA").foregroundColor(.faint))
+        (Text("CHALK THAT ").foregroundColor(.ink) + Text("HARDWOOD").foregroundColor(.faint))
             .font(.brandDisplay(size, weight: .bold))
             .tracking(size * 0.04)
-            .accessibilityLabel("Chalk That NBA")
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .accessibilityLabel("Chalk That Hardwood")
     }
 }
 

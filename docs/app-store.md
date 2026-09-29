@@ -1,43 +1,71 @@
-# Chalk That NBA — App Store submission notes (draft)
+# Chalk That Hardwood (repo: Chalk That NBA) — App Store submission notes (draft)
 
 Draft for JD to review before submitting. Items marked **JD** are
 decisions or facts only JD can supply. Not legal advice.
+
+## Name: Chalk That Hardwood (renamed 2026-09-29)
+
+"NBA" can't appear in the app's name, subtitle, keywords or branding:
+Apple rejected the sister app's "Chalk That NFL" under Guideline 4.1(a)
+(it's now Chalk That Gridiron). The same applies here. Factual mentions
+inside the app (NBA.com, NBA Finals) are fine; the listing uses "pro
+basketball" and carries an independence disclaimer.
 
 ## App Store Connect: app record
 
 | Field | Value |
 |---|---|
-| Name | Chalk That NBA |
-| Bundle ID | `rookiegame.Chalk-That-NBA` |
-| SKU | chalk-that-nba-ios (**JD** to confirm) |
+| Name (App Information) | Chalk That Hardwood |
+| Bundle ID | `rookiegame.Chalk-That-NBA` (internal, never shown to users; keep it) |
 | Primary category | Sports |
 | Secondary category | Reference (optional) |
 | Price | Free |
-| Availability | **JD** (NFL app's settings are the reference) |
 
-## Listing text
+## Listing text (paste-ready; lengths checked)
 
-**Subtitle (30 max):** NBA stats with the sample size
+**Subtitle (29/30):** Pro basketball stats & splits
 
-**Promotional text (170 max):**
-Every player and team since 2003-04, filtered by home/away, rest, back-to-backs, national TV and altitude, with the games count on every number.
+**Promotional text (149/170):**
+Every player and team since 2003-04, filtered by home/away, rest, back-to-backs, national TV and altitude, with the games count next to every number.
 
-**Description:**
-Chalk That NBA is a stats research app. Every number is counted from real NBA box scores at the moment you ask; there are no projections or picks.
+**Keywords (97/100), no trademarks, no spaces after commas:**
+basketball,stats,splits,box score,game log,leaders,standings,props,player,rest,back to back,hoops
 
-- Scores and box scores, with the split tags each team carried into the game.
-- Player and team pages: season averages, last 5 and last 10, career and full game logs for every season since 2003-04.
-- Splits: home or away, night 1 or 2 of a back-to-back, days of rest, national TV, and altitude. Combine as many as you like; the sample size and record are always shown.
-- Leaders, standings with the playoff bracket, rankings, and defense by position.
-- Props: DraftKings lines next to how often a player went over that exact line before. Counts, never picks.
-- Ask: plain-English questions like "Jokić on the second night of back-to-backs", answered with verified numbers.
+**Description (1423/4000):**
+
+```
+Chalk That Hardwood is a pro basketball stats research app. Every number is counted from real box scores at the moment you ask. No projections, no picks.
+
+SCORES AND BOX SCORES
+Every game on any date, with the split tags each team carried into it: home or away, days of rest, back-to-back night, altitude and national TV.
+
+PLAYERS AND TEAMS
+Season averages, last 5 and last 10, careers and full game logs for every season since 2003-04, including the regular season, play-in, playoffs and in-season tournament.
+
+SPLITS
+Narrow any view to home or away games, the first or second night of a back-to-back, days of rest, national TV, or altitude. Combine as many as you like. The games count and team record are always shown, so you can judge the sample.
+
+LEADERS, STANDINGS AND RANKINGS
+League leaders with a clear qualifier, standings with the playoff bracket, player and team rankings, and defense by position.
+
+PROPS
+Sportsbook player lines next to how often a player went over that exact line before. Counts, never picks. The app does not take wagers or link to sportsbooks.
+
+ASK
+Ask questions in plain English, like "who leads the league in steals" or "points on the second night of back-to-backs", and get answers built from verified numbers.
 
 Accounts are by invitation; there is no public sign-up.
 
-**Keywords (100 max):** nba,basketball,stats,splits,back to back,rest,box score,game log,leaders,standings,props,player
+Chalk That Hardwood is an independent app and is not affiliated with, endorsed by, or sponsored by the NBA or any team.
+```
 
-**Support URL / Marketing URL:** **JD** (the web app URL works for marketing)
-**Privacy Policy URL:** host `docs/privacy-policy.html` (e.g. from the web service or GitHub Pages), **JD**
+**Support URL:** host `docs/support.html` (**JD**; see hosting note below)
+**Marketing URL:** leave blank (optional)
+**Privacy Policy URL:** host `docs/privacy-policy.html` (**JD**)
+
+Hosting: the simplest option is to copy both files into the web app's
+`frontend/public/` so they're served at `/support.html` and
+`/privacy-policy.html` on the web service. GitHub Pages works too.
 
 ## Age rating (questionnaire)
 
@@ -61,7 +89,7 @@ Accounts are by invitation; there is no public sign-up.
 
 - **Sign-in required.** Create a review account (`npm run create-user` in the web repo). Enter its username and password in App Review Information. **JD** (never put credentials in this repo)
 - Review notes (suggested):
-  > Chalk That NBA is a research tool for NBA statistics. Accounts are created by the developer (no public sign-up); use the demo account above. The Props tab shows publicly available DraftKings lines next to historical counts for reference. The app does not accept wagers or link to sportsbooks. "Ask" uses an AI model only to choose which statistics query to run; all numbers come from our database.
+  > Chalk That Hardwood is a research tool for pro basketball statistics. It is independent and not affiliated with the NBA; league and team names appear only as factual data. Accounts are created by the developer (no public sign-up); use the demo account above. The Props tab shows publicly available DraftKings lines next to historical counts for reference. The app does not accept wagers or link to sportsbooks. "Ask" uses an AI model only to choose which statistics query to run; all numbers come from our database.
 - The review happens in the offseason / preseason, so Props may show "No prop lines yet". Mention it in the notes if still true then.
 
 ## Screenshots

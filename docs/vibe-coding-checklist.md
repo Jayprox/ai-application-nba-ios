@@ -294,3 +294,22 @@ Same filters on web and iOS, numbers must match exactly:
   minimum, not "Chalk That's rule". Leaders card and Guide updated; the
   usage board's 15+ minutes is labeled Chalk That's addition; the Guide
   notes the NBA's extrapolation exception isn't applied.
+- **2026-09-29** — Public name changed to **Chalk That Hardwood** (JD):
+  Apple rejects "NBA" in an app's name/branding under Guideline 4.1(a),
+  as it did "NFL" for the sister app (now Chalk That Gridiron).
+  Changed: home-screen display name, wordmark (CHALK THAT HARDWOOD),
+  sign-out dialog, Guide eyebrow + an "Independence" disclaimer, privacy
+  policy (+ disclaimer), new `docs/support.html`, and the listing in
+  `docs/app-store.md` (subtitle, keywords, description say "pro
+  basketball"; no trademarks). Unchanged on purpose: bundle ID, Xcode
+  project / target / module names, Keychain service (renaming it would
+  sign existing testers out), and factual in-app mentions (NBA.com, NBA
+  Finals, NBA Cup, "No NBA games on …").
+- **2026-09-29** — JD's test run caught three bugs (fixed): (1)
+  `player_b2b_night` decodes to `playerB2BNight`, not `playerB2bNight`
+  (`.capitalized` treats the digit as a word break), so his own-rest
+  back-to-back tag was always nil in box scores and game-log tags; (2)
+  JSONDecoder does NOT convert keys inside dictionaries, so the rankings
+  z-score / rank lookups (which assumed camelCased keys) missed; the
+  `Format.decodedKey` helper is removed; (3) the thousands separator used
+  en_US_POSIX, which never groups (5280), now en_US (5,280).

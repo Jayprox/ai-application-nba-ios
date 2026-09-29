@@ -44,7 +44,7 @@ extension Color {
     // MARK: - Text
     static let ink        = Color(hex: "#F5F7FA")  // primary text
     static let muted      = Color(hex: "#9AA7B4")  // secondary text
-    static let faint      = Color(hex: "#62717D")  // tertiary text, "NBA" in the wordmark
+    static let faint      = Color(hex: "#62717D")  // tertiary text, "HARDWOOD" in the wordmark
 
     // MARK: - Interactive
     static let link       = Color(hex: "#4D9FEC")  // links / tappable names

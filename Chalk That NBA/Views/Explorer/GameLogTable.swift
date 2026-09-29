@@ -20,7 +20,7 @@ enum GameLogText {
     /// `tags(r, restby)`: "Playoffs · B2B night 2 · 0d rest · Altitude · National TV".
     static func tags(_ r: GameLogRow, restBy: String) -> String {
         let rest = restBy == "player" ? r.playerRestDays : r.restDays
-        let b2b = restBy == "player" ? r.playerB2bNight : r.b2bNight
+        let b2b = restBy == "player" ? r.playerB2BNight : r.b2bNight
         let type = ["play_in": "Play-In", "playoffs": "Playoffs", "cup_final": "Cup Final"]
         let tv = ["major": "National TV", "nba_tv": "NBA TV"]
         return [

@@ -78,7 +78,7 @@ final class DecodingTests: XCTestCase {
         XCTAssertEqual(team.plusMinus, -9)
         XCTAssertEqual(team.minutes, 240)
         XCTAssertEqual(team.players[0].minutes, 41.5)
-        XCTAssertEqual(team.players[0].playerB2bNight, 1)
+        XCTAssertEqual(team.players[0].playerB2BNight, 1)
         XCTAssertTrue(team.players[1].dnp)
         XCTAssertNil(team.players[1].pts)
     }

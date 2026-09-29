@@ -13,7 +13,7 @@ struct GuideView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Eyebrow(text: "How to use Chalk That NBA")
+                        Eyebrow(text: "How to use Chalk That Hardwood")
                         Text("Guide")
                             .font(.brandDisplay(32, weight: .bold, relativeTo: .largeTitle))
                             .foregroundStyle(Color.ink)

@@ -3,7 +3,7 @@
 //  Chalk That NBATests
 //
 //  Ports of the web's lib/props.test.js and lib/rankings.test.js, the
-//  decodedKey gotcha (z["ts_pct"] arrives as "tsPct"), rankings payloads,
+//  dictionary keys arriving unconverted (z["ts_pct"]), rankings payloads,
 //  and the guide's structure (the web's Guide.test.jsx idea).
 //
 import XCTest
@@ -76,13 +76,12 @@ final class PropsAndRankingsTests: XCTestCase {
         XCTAssertNil(PropText.matchupText(nil))
     }
 
-    // MARK: - Decoded dictionary keys
+    // MARK: - Dictionary keys stay as sent
 
-    func testDecodedKey() {
-        XCTAssertEqual(Format.decodedKey("ts_pct"), "tsPct")
-        XCTAssertEqual(Format.decodedKey("off_rtg"), "offRtg")
-        XCTAssertEqual(Format.decodedKey("pts"), "pts")
-        XCTAssertEqual(Format.decodedKey("fg3m"), "fg3m")
+    func testDictionaryKeysAreNotConverted() throws {
+        let r = try decode(TeamRankingRow.self, #"{ "team_id": 1, "abbr": "A", "name": "A", "w": 1, "l": 0, "ranks": { "off_rtg": 3 } }"#)
+        XCTAssertEqual(r.ranks["off_rtg"] ?? nil, 3)
+        XCTAssertNil(r.ranks["offRtg"] ?? nil)
     }
 
     func testPlayerRankingsReadZScoresBySnakeCaseStatName() throws {

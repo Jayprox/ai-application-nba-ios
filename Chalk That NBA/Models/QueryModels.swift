@@ -13,7 +13,10 @@
 //  Decodable types here must NOT declare snake_case CodingKeys: the
 //  decoder's convertFromSnakeCase turns "plus_minus" into "plusMinus"
 //  before matching, so a "plus_minus" raw value would never match.
-//  (`pts_per36` -> `ptsPer36`, `fg3_pct` -> `fg3Pct`, `b2b_night` -> `b2bNight`.)
+//  (`pts_per36` -> `ptsPer36`, `fg3_pct` -> `fg3Pct`, `b2b_night` -> `b2bNight`,
+//  but `player_b2b_night` -> `playerB2BNight`: a later component is
+//  `.capitalized`, which treats a digit as a word break, so b2b -> B2B.)
+//  Keys INSIDE [String: T] dictionaries are not converted at all.
 //
 import Foundation
 
@@ -161,7 +164,8 @@ struct GameLogRow: Decodable, Identifiable {
     let altitude: Bool?
     // players
     let playerRestDays: Int?
-    let playerB2bNight: Int?
+    /// "player_b2b_night": convertFromSnakeCase capitalizes "b2b" as "B2B".
+    let playerB2BNight: Int?
     let started: Bool?
     let minutes: Double?
     let pts, reb, ast, stl, blk, tov, fg3m, fgm, fga, fg3a, ftm, fta: Int?

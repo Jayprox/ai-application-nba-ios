@@ -8,8 +8,8 @@
 //  Players are ranked by an equal-weight z-score composite the API
 //  computes; teams by estimated ratings. The app shows them as given.
 //
-//  Dictionary keys with underscores (z["ts_pct"], ranks["off_rtg"]) are
-//  camelCased by the decoder: look them up with Format.decodedKey.
+//  Keys inside dictionaries (z["ts_pct"], ranks["off_rtg"]) arrive exactly
+//  as the API sends them: JSONDecoder's key strategy doesn't touch them.
 //
 import Foundation
 
@@ -61,7 +61,7 @@ struct PlayerRankingRow: Decodable, Identifiable {
         }
     }
 
-    func zScore(_ stat: String) -> Double? { z[Format.decodedKey(stat)] ?? nil }
+    func zScore(_ stat: String) -> Double? { z[stat] ?? nil }
 }
 
 struct PlayerRankingsMeta: Decodable {
@@ -83,5 +83,5 @@ struct TeamRankingRow: Decodable, Identifiable {
 
     var id: Int { teamId }
 
-    func rank(_ key: String) -> Int? { ranks[Format.decodedKey(key)] ?? nil }
+    func rank(_ key: String) -> Int? { ranks[key] ?? nil }
 }

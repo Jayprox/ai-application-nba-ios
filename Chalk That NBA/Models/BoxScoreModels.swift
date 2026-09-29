@@ -67,7 +67,8 @@ struct BoxScorePlayer: Decodable, Identifiable {
     let fgm, fga, fg3m, fg3a, ftm, fta: Int?
     let plusMinus: Int?
     let playerRestDays: Int?
-    let playerB2bNight: Int?
+    /// "player_b2b_night" -> playerB2BNight (see QueryModels.swift).
+    let playerB2BNight: Int?
 
     var id: String { playerId }
 }

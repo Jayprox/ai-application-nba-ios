@@ -247,7 +247,7 @@ enum Format {
     /// `toLocaleString()` for whole numbers: 5,280.
     static func thousands(_ n: Int) -> String {
         let formatter = NumberFormatter()
-        formatter.locale = usLocale
+        formatter.locale = Locale(identifier: "en_US")   // en_US_POSIX has no grouping separator
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: n)) ?? String(n)
     }
@@ -260,16 +260,6 @@ enum Format {
     static func netRating(off: Double?, def: Double?) -> String {
         guard let off, let def else { return "—" }
         return signedAvg(off - def)
-    }
-
-    /// A dictionary key as it reads AFTER decoding. JSONDecoder's
-    /// convertFromSnakeCase also rewrites dictionary keys, so the API's
-    /// `z["ts_pct"]` / `ranks["off_rtg"]` arrive as "tsPct" / "offRtg".
-    /// Look those up with `Format.decodedKey("ts_pct")`.
-    static func decodedKey(_ snake: String) -> String {
-        let parts = snake.split(separator: "_", omittingEmptySubsequences: false)
-        guard parts.count > 1 else { return snake }
-        return String(parts[0]) + parts.dropFirst().map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined()
     }
 
     // MARK: - JS-compatible rounding

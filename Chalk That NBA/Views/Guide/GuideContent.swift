@@ -112,7 +112,8 @@ enum GuideContent {
                 ("This season", "Scores update about every 5 minutes during games and box scores land at the final buzzer. NBA.com is re-checked weekly so any late stat corrections are picked up."),
                 ("Freshness", "\"Synced 1 day ago\" under a result is when the data was last updated."),
                 ("Prop lines", "DraftKings, via The Odds API, from the 2026-27 season on."),
-                ("Injuries", "Not shown yet: an injury feed is still being tested. When it's ready, a badge will appear on player pages.")
+                ("Injuries", "Not shown yet: an injury feed is still being tested. When it's ready, a badge will appear on player pages."),
+                ("Independence", "Chalk That Hardwood is an independent app. It isn't affiliated with, endorsed by, or sponsored by the NBA or any team.")
             ])
         ])
     ]
