@@ -77,5 +77,5 @@ Required: 6.9" (iPhone 17 Pro Max class, 1320 × 2868) and 6.5" if you support i
 
 ## Assets still missing
 
-- [ ] App icon, 1024 × 1024, no transparency (**JD**, see checklist)
+- [x] App icon, 1024 × 1024, no transparency
 - [x] Oswald font files in `Chalk That NBA/Resources/Fonts/` (Medium, SemiBold, Bold) + OFL.txt

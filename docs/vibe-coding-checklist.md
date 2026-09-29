@@ -269,9 +269,23 @@ Same filters on web and iOS, numbers must match exactly:
   `docs/app-store.md` (listing, age rating and privacy-label drafts,
   review notes, screenshot plan), `docs/parity-test-plan.md` (§8 as
   runnable cases + empty states + accessibility/layout checks).
-  Waiting on JD: app icon pick.
 - **2026-09-28** — Oswald Medium / SemiBold / Bold added to
   `Resources/Fonts` with `OFL.txt` (SIL Open Font License; static TTFs
   from the @expo-google-fonts/oswald npm package, PostScript names
   checked: Oswald-Medium, Oswald-SemiBold, Oswald-Bold). Five icon
   concepts in `docs/icon-concepts/` (drawn by `gen.py`); JD to pick.
+- **2026-09-28** — App icon done. JD chose his own composition (navy,
+  glowing ball upper-left, red uptick arrow, cyan-to-blue bars; kept as
+  `docs/icon-concepts/jd-reference.png`). Its AI-drawn seams didn't
+  follow a sphere, so it was redrawn in the same layout by
+  `docs/icon-concepts/final-draw.py`: the seams are computed per pixel on
+  a 3D sphere (two great circles + two curved panel seams), with
+  pebbled leather, blue rim glow and glowing bars / arrow. 1024 × 1024,
+  RGB, no transparency, full-bleed (iOS applies the rounded mask).
+- **2026-09-28** — Icon changed to the **hoop design (#3)**, from JD's own
+  screengrab (`docs/icon-concepts/jd-hoop-screengrab.png`): the baked-in
+  rounded frame and outer margin trimmed, squared, scaled 638 -> 1024
+  with light sharpening, full-bleed RGB, no transparency. It replaces the
+  earlier redrawn "classic" icon. A clean-seam redraw of the hoop
+  composition is kept as an alternative (`alt-hoop-redraw.py` / preview)
+  in case the 638 px source looks soft on the App Store page.
