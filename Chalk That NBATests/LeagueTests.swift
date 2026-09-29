@@ -55,7 +55,7 @@ final class LeagueTests: XCTestCase {
         let json = """
         { "query": {}, "subject": { "type": "league" },
           "data": [ { "rank": 1, "player_id": "p", "full_name": "Luka Dončić", "gp": 64, "value": 33.5, "team": "LAL" } ],
-          "meta": { "sample_size": 142, "record": null, "notes": ["Qualifier: played in at least 70% of team games (58 of 82) — Chalk That's rule, not the NBA's official one."],
+          "meta": { "sample_size": 142, "record": null, "notes": ["Qualifier: played in at least 70% of team games (58 of 82), the NBA's rule for per-game leaders."],
             "qualifier": { "min_games": 58, "team_games": 82, "qualified_players": 142 },
             "freshness": { "synced_at": null }, "cached": false } }
         """

@@ -289,3 +289,8 @@ Same filters on web and iOS, numbers must match exactly:
   earlier redrawn "classic" icon. A clean-seam redraw of the hoop
   composition is kept as an alternative (`alt-hoop-redraw.py` / preview)
   in case the 638 px source looks soft on the App Store page.
+- **2026-09-28** — Qualifier wording fixed to match the web/API change
+  (JD): the 70%-of-team-games rule is the NBA's own per-game-leader
+  minimum, not "Chalk That's rule". Leaders card and Guide updated; the
+  usage board's 15+ minutes is labeled Chalk That's addition; the Guide
+  notes the NBA's extrapolation exception isn't applied.

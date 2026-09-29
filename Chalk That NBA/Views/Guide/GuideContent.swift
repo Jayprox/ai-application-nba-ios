@@ -71,7 +71,7 @@ enum GuideContent {
         ]),
         GuideSection(id: "leaders", title: "Leaders", blocks: [
             .paragraph("Leaders ranks per-game averages in points, rebounds, assists, 3-pointers, steals, blocks and usage, for any season and for the regular season, playoffs, or all games."),
-            .paragraph("To qualify, a player must have played in **at least 70% of his team's games** so far. This is Chalk That's own rule, not the NBA's official one; it scales with the season, so it works in November too, and a hot 3-game stretch can't top the list. The **usage** board also needs 15+ minutes per game, so a player who gets 4 minutes a night can't lead it. The \"Who qualifies\" box shows the exact cutoff.")
+            .paragraph("To qualify, a player must have played in **at least 70% of his team's games** so far, the NBA's own rule for per-game leaders. It scales with the season, so it works in November too, and a hot 3-game stretch can't top the list. (The NBA also lets a player who falls short qualify if he'd still lead with his total spread over the minimum games; that exception isn't applied here.) The **usage** board also needs 15+ minutes per game, Chalk That's addition since the NBA has no usage leaderboard, so a player who gets 4 minutes a night can't lead it. The \"Who qualifies\" box shows the exact cutoff.")
         ]),
         GuideSection(id: "rankings", title: "Rankings", blocks: [
             .paragraph("Rankings has three views, each for the full season or the last 10 games:"),

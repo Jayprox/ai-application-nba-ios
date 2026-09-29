@@ -144,7 +144,8 @@ struct LeadersView: View {
                 .font(.brandBody(.subheadline))
                 .foregroundStyle(Color.ink)
                 .fixedSize(horizontal: false, vertical: true)
-            Text("This is Chalk That's rule, not the NBA's official qualifier. It scales with games played, so it works early in the season too, and a 1-game outlier can't top the list.")
+            Text("This is the NBA's rule for per-game leaders. It scales with games played, so it works early in the season too, and a 1-game outlier can't top the list."
+                 + (q?.minMinutes.map { " The \($0)+ minutes is Chalk That's addition for usage, which the NBA doesn't rank." } ?? ""))
                 .font(.brandBody(.footnote))
                 .foregroundStyle(Color.muted)
                 .fixedSize(horizontal: false, vertical: true)
