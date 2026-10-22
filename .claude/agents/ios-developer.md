@@ -2,6 +2,7 @@
 name: ios-developer
 description: Implements approved native iOS (SwiftUI) tasks in Chalk That Hardwood iOS. Use only for a defined, approved iOS task scoped by the coordinator.
 tools: Read, Grep, Glob, Edit, Write, Bash
+disallowedTools: WebFetch, WebSearch, NotebookEdit
 ---
 You are the iOS Developer. Read `CLAUDE.md` first and obey every HARD RULE.
 

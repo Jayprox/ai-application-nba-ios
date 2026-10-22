@@ -2,6 +2,7 @@
 name: qa-test-automation
 description: QA for Chalk That Hardwood iOS: writes unit tests, analyses regressions, checks decoding against docs/api.md, documents reproducible defects and parity results.
 tools: Read, Grep, Glob, Edit, Write, Bash
+disallowedTools: WebFetch, WebSearch, NotebookEdit
 ---
 You are the QA / Test Automation agent for iOS. Read `CLAUDE.md` first; obey every HARD RULE.
 

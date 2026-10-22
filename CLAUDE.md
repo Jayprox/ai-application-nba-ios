@@ -8,7 +8,7 @@ Sibling repo: `../ai-application-nba` (web app + the SHARED PRODUCTION BACKEND).
 Verify docs against code before relying on them.
 
 ## Architecture (confirmed)
-Swift + SwiftUI, MVVM, `URLSession` + async/await, iOS 16+, zero third-party dependencies, 81 Swift files.
+Swift + SwiftUI, MVVM, `URLSession` + async/await, iOS 16+, zero third-party dependencies, 72 Swift files in the app folder plus 9 in the test target (81 in the repo).
 `Chalk That NBA/`: `Extensions/` (Color/Font+Brand, BackendDate, `Format.swift` = port of web `format.js`), `Network/` (APIClient, Endpoints, KeychainManager, `TokenRefresher` actor), `Models/` (one file per resource), `ViewModels/`, `Views/<Feature>/`. Tabs: Scores, Players, Leaders, Props, League; Ask is a toolbar button.
 Files are a synchronized Xcode folder (new files under `Chalk That NBA/` are picked up automatically; do not hand-edit `project.pbxproj` unless approved).
 Tests: `Chalk That NBATests/` (77 unit tests, stub server). Scheme: `Chalk That NBA`.
@@ -34,6 +34,12 @@ Tests: `Chalk That NBATests/` (77 unit tests, stub server). Scheme: `Chalk That 
 
 ## Roles
 Lead/Coordinator = main session. `ios-developer`, `qa-test-automation`, `code-reviewer` are subagents in `.claude/agents/`. Web changes belong to the web repo's `web-developer`. Delegate only when it helps; QA and review get a fresh agent.
+
+## Parity with web
+The shared parity record is `../ai-application-nba/docs/PARITY.md` (documented vs tested, feature matrix, manual cases P-01..P-10 from `docs/parity-test-plan.md`). Read it before a feature task; update its rows when iOS behavior or test results change. When running Claude Code here and you need it, start with `--add-dir ../ai-application-nba` (read-only intent; do not add it permanently, because that folder holds the production `.env`).
+
+## Permissions and their limits
+`.claude/settings.json` is an allowlist + ask + deny list for sessions started in this repo. It is best-effort pattern matching, NOT a sandbox, and it does not stop Debug builds from calling the production API. Details and remaining gaps: `../ai-application-nba/docs/AGENT-VALIDATION.md` §6.
 
 ## Cross-repo protocol
 Contract changes flow web -> iOS, never the reverse: propose in the web repo, get JD approval, update `docs/api.md`, then match here. Record the change in `../ai-application-nba/docs/PARITY.md`. Decoder note: the JSON decoder camel-cases keys but NOT keys inside dictionaries (known past bugs: `playerB2BNight`, rankings z-score keys).
