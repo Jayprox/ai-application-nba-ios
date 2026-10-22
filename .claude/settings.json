@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./**/.env)",
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(xcodebuild archive:*)",
+      "Bash(xcodebuild -exportArchive:*)",
+      "Bash(xcrun altool:*)",
+      "Bash(xcrun notarytool:*)",
+      "Bash(fastlane:*)",
+      "Bash(pod install:*)",
+      "Bash(swift package:*)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(xcodebuild:*)"
+    ]
+  }
+}
