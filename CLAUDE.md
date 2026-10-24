@@ -22,7 +22,7 @@ Tests: `Chalk That NBATests/` (77 unit tests, stub server). Scheme: `Chalk That 
 5. Never expose or commit secrets, tokens, review-account credentials or `.env`-style files. Tokens belong in the Keychain only. Never log tokens.
 6. No paid API calls (Ask hits Anthropic through the backend: do not exercise it live).
 7. Do not install packages or add dependencies (the app has none by design) without approval.
-8. No commits, merges, pushes, TestFlight/App Store submissions, signing or provisioning changes without explicit JD approval. Work on a `claude/<task>` branch/worktree, never `main`.
+8. No commits, merges, pushes, TestFlight/App Store submissions, signing or provisioning changes without explicit JD approval. Work on a branch/worktree, never `main`: `claude/<task>` for feature/fix work, `chore/<topic>` for agent-config and docs work (current: `chore/hardwood-agent-setup`).
 9. Preserve existing functionality; no refactors of auth (`TokenRefresher` single-flight rule) without approval: reusing a refresh token signs the user out everywhere.
 10. Report only what was actually run. Never claim a build or test passed unless executed. Say "not run" and why.
 11. `git status` first; if the tree is unexpectedly dirty, stop and report.
@@ -39,7 +39,7 @@ Lead/Coordinator = main session. `ios-developer`, `qa-test-automation`, `code-re
 The shared parity record is `../ai-application-nba/docs/PARITY.md` (documented vs tested, feature matrix, manual cases P-01..P-10 from `docs/parity-test-plan.md`). Read it before a feature task; update its rows when iOS behavior or test results change. When running Claude Code here and you need it, start with `--add-dir ../ai-application-nba` (read-only intent; do not add it permanently, because that folder holds the production `.env`).
 
 ## Permissions and their limits
-`.claude/settings.json` is an allowlist + ask + deny list for sessions started in this repo. It is best-effort pattern matching, NOT a sandbox, and it does not stop Debug builds from calling the production API. Details and remaining gaps: `../ai-application-nba/docs/AGENT-VALIDATION.md` §6.
+`.claude/settings.json` is an allowlist + ask + deny list for sessions started in this repo. It is best-effort pattern matching, NOT a sandbox, and it does not stop Debug builds from calling the production API. Details and remaining gaps: `../ai-application-nba/docs/AGENT-VALIDATION.md` §8; safe secret-free setup: `../ai-application-nba/docs/AGENT-WORKFLOW.md` "Safe working copy". Claude cannot edit `.claude/settings*.json` (deny rule); JD applies settings changes.
 
 ## Cross-repo protocol
 Contract changes flow web -> iOS, never the reverse: propose in the web repo, get JD approval, update `docs/api.md`, then match here. Record the change in `../ai-application-nba/docs/PARITY.md`. Decoder note: the JSON decoder camel-cases keys but NOT keys inside dictionaries (known past bugs: `playerB2BNight`, rankings z-score keys).

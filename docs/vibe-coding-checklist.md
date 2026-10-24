@@ -313,3 +313,12 @@ Same filters on web and iOS, numbers must match exactly:
   z-score / rank lookups (which assumed camelCased keys) missed; the
   `Format.decodedKey` helper is removed; (3) the thousands separator used
   en_US_POSIX, which never groups (5280), now en_US (5,280).
+- **2026-10-22** — Agent-config security corrections (JD approved; same
+  change in the web repo, decision row in its `vibe-coding-checklist.md`):
+  `.claude/settings.json` drops wildcard allows (`git diff/log/show*`,
+  bare `Read`), turns on `blockReadsOutsideWorkingDirectories` and
+  `disableBypassPermissionsMode`, denies git escapes (`--no-index`,
+  `--output`, `-c`, `difftool`) and more credential paths (incl. `*.p8`,
+  `~/.appstoreconnect`); `.claude/settings.local.json` git-ignored; branch
+  rule is `claude/<task>` (features) or `chore/<topic>` (config/docs).
+  No app code changed.

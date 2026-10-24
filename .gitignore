@@ -12,3 +12,6 @@ xcuserdata/
 
 # Files the Claude desktop app saves from chat
 Claude outputs/
+
+# Claude Code personal settings (local overrides must never be committed)
+.claude/settings.local.json
