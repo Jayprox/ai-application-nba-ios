@@ -64,3 +64,8 @@ The interactive method is operator-only; opt in with
 code, API contract, project configuration, signing, production data or services
 changed. These are bounded iOS stub results, not a sign-off of all P-09 cases or
 live cross-app parity.
+
+The four automated pilot cases also skip before setting up a session or screen
+when the API hostname is not `127.0.0.1`. To run them, pass
+`API_BASE_URL=http://127.0.0.1:9` to xcodebuild. Normal Xcode test runs therefore
+skip the pilot cases instead of failing or making production requests.
