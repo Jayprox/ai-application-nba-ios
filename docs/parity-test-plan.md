@@ -42,3 +42,30 @@ Web: https://web-production-081bcf.up.railway.app · iOS: Debug or TestFlight bu
 | A-02 | VoiceOver on a box score, the game log, the standings table | Each row is read once as a sentence; tiles read "Points, 20.9" |
 | A-03 | iPhone SE (3rd gen) simulator | Scoreboard header, Players filters and box-score header fit; tables scroll sideways with the first column pinned |
 | A-04 | iPhone 17 Pro Max simulator + landscape | Same, no stretched cards |
+
+
+## Pilot 001 scoped verification — 2026-10-28
+
+Base `6cfa994`, isolated branch `claude/empty-state-pilot`; local stubs only.
+Xcode 27.1 (27A9275), Device Hub, iPhone 18 Pro simulator / iOS 27.0.
+Existing ExplorerTests: 19 passed. EmptyStatePilotTests: four screenshot-text
+checks passed for E-03/E-05/E-06/E-07. E-05 and E-06 recovery model checks passed.
+
+Follow-up with JD present: both actual recovery buttons were clicked through
+Device Hub computer control. Clear splits removed all three splits; Show Regular
+season changed Playoffs to Regular. Each tap produced a fresh stub query with
+regular season and an empty splits object, then rendered the expected replacement
+message with no loading card. `testInteractiveRecoveries` passed (one test, both
+cases, zero failures), with before/after screenshot attachments.
+
+The interactive method is operator-only; opt in with
+`TEST_RUNNER_PILOT_INTERACTIVE=1` when invoking xcodebuild, and override
+`API_BASE_URL=http://127.0.0.1:9`. It skips when not opted in. No app product
+code, API contract, project configuration, signing, production data or services
+changed. These are bounded iOS stub results, not a sign-off of all P-09 cases or
+live cross-app parity.
+
+The four automated pilot cases also skip before setting up a session or screen
+when the API hostname is not `127.0.0.1`. To run them, pass
+`API_BASE_URL=http://127.0.0.1:9` to xcodebuild. Normal Xcode test runs therefore
+skip the pilot cases instead of failing or making production requests.
